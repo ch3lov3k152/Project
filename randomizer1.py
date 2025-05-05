@@ -85,7 +85,7 @@ Label(win, text="Від", font=('Comic Sans MS', 12)).place(x=20, y=40)
 Label(win, text="До", font=('Comic Sans MS', 12)).place(x=140, y=40)
 
 # Поля введення для діапазону
-vcmd = (win.register(is_valid_number), "%P")
+vcmd = (win.register(is_valid_number), "%P") # Для блокування писання тексту замість чисел
 entry_start = Entry(win, font=('Comic Sans MS', 12), width=5, validate="key", validatecommand=vcmd)
 entry_start.place(x=60, y=40)
 entry_end = Entry(win, font=('Comic Sans MS', 12), width=5, validate="key", validatecommand=vcmd)
