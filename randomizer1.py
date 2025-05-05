@@ -6,12 +6,15 @@ import os
 from tkinter import scrolledtext, filedialog
 
 DATA_FILE = "randomizer_data.txt"
-def save_file():
-    file = filedialog.asksaveasfilename(defaultextension =".txt", filetypes =[("Text files", "*.txt"), ("All Files", "*.*")])
 
-    if file:
-        with open(file, "w", encoding='utf-8') as file:
-            file.write(history_box.get("1.0", tk.END))
+def is_valid_number(new_value):
+    return new_value.isdigit() or new_value == ""
+
+def save_file():
+    file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[('Text files', "*.txt")])
+    if file_path:
+        with open(file_path, "w", encoding="utf-8") as file:
+            file.write(history_box.get('1.0', tk.END))
 
 def generate():
     try:
@@ -82,9 +85,10 @@ Label(win, text="Від", font=('Comic Sans MS', 12)).place(x=20, y=40)
 Label(win, text="До", font=('Comic Sans MS', 12)).place(x=140, y=40)
 
 # Поля введення для діапазону
-entry_start = Entry(win, font=('Comic Sans MS', 12), width=5)
+vcmd = (win.register(is_valid_number), "%P")
+entry_start = Entry(win, font=('Comic Sans MS', 12), width=5, validate="key", validatecommand=vcmd)
 entry_start.place(x=60, y=40)
-entry_end = Entry(win, font=('Comic Sans MS', 12), width=5)
+entry_end = Entry(win, font=('Comic Sans MS', 12), width=5, validate="key", validatecommand=vcmd)
 entry_end.place(x=180, y=40)
 
 # Користувацький список
@@ -100,9 +104,9 @@ generate_btn.place(x=50, y=100)
 clear_btn = Button(win, text="Очистити", font=('Comic Sans MS', 14), bg="orange", command=clear_all)
 clear_btn.place(x=200, y=100)
 
-# Кнопка збереження історії
-save_button = Button(win, text="Зберегти файл", font=('Comic Sans MS', 14), command=save_file)
-save_button.place(x=20, y=340)
+# Кнопка збережння файлу
+save_button = Button(win, text='Збереження файлу', command=save_file)
+save_button.place(x=20, y=335)
 
 # Виведення результату
 result_label = Label(win, text="", font=('Comic Sans MS', 20), fg="blue")
