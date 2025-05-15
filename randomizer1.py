@@ -1,10 +1,20 @@
+import tkinter as tk
 from tkinter import *
 from tkinter import messagebox
-from tkinter import ttk
 import random
 import os
+from tkinter import scrolledtext, filedialog
 
 DATA_FILE = "randomizer_data.txt"
+
+def is_valid_number(new_value):
+    return new_value.isdigit() or new_value == ""
+
+def save_file():
+    file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[('Text files', "*.txt")])
+    if file_path:
+        with open(file_path, "w", encoding="utf-8") as file:
+            file.write(history_box.get('1.0', tk.END))
 
 def generate():
     try:
@@ -64,7 +74,7 @@ def load_history():
 
 win = Tk()
 win.title("LuckyPick")
-win.geometry("620x400")
+win.geometry("620x410")
 win.resizable(False, False)
 
 history = []
@@ -75,9 +85,10 @@ Label(win, text="Від", font=('Comic Sans MS', 12)).place(x=20, y=40)
 Label(win, text="До", font=('Comic Sans MS', 12)).place(x=140, y=40)
 
 # Поля введення для діапазону
-entry_start = Entry(win, font=('Comic Sans MS', 12), width=5)
+vcmd = (win.register(is_valid_number), "%P") # Для блокування писання тексту замість чисел
+entry_start = Entry(win, font=('Comic Sans MS', 12), width=5, validate="key", validatecommand=vcmd)
 entry_start.place(x=60, y=40)
-entry_end = Entry(win, font=('Comic Sans MS', 12), width=5)
+entry_end = Entry(win, font=('Comic Sans MS', 12), width=5, validate="key", validatecommand=vcmd)
 entry_end.place(x=180, y=40)
 
 # Користувацький список
@@ -93,6 +104,10 @@ generate_btn.place(x=50, y=100)
 clear_btn = Button(win, text="Очистити", font=('Comic Sans MS', 14), bg="orange", command=clear_all)
 clear_btn.place(x=200, y=100)
 
+# Кнопка збережння файлу
+save_button = Button(win, text='Збереження файлу', command=save_file)
+save_button.place(x=20, y=365)
+
 # Виведення результату
 result_label = Label(win, text="", font=('Comic Sans MS', 20), fg="blue")
 result_label.place(x=250, y=150)
@@ -104,7 +119,7 @@ check_btn.place(x=20, y=160)
 
 # Поле історії
 Label(win, text="Історія:", font=('Comic Sans MS', 14)).place(x=20, y=200)
-history_box = Text(win, height=7, width=70, font=('Comic Sans MS', 10), state="disabled")
+history_box = scrolledtext.ScrolledText(win, height=7, width=70, font=('Comic Sans MS', 10), state="disabled")
 history_box.place(x=20, y=230)
 
 load_history()
