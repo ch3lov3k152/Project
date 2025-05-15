@@ -7,8 +7,10 @@ from tkinter import scrolledtext, filedialog
 
 DATA_FILE = "randomizer_data.txt"
 
-def is_valid_number(new_value):
-    return new_value.isdigit() or new_value == ""
+def validate_number_input(value):
+    if value == "" or value == "-" or (value.startswith("-") and value[1:].isdigit()) or value.isdigit():
+        return True
+    return False
 
 def save_file():
     file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[('Text files', "*.txt")])
@@ -85,7 +87,7 @@ Label(win, text="Від", font=('Comic Sans MS', 12)).place(x=20, y=40)
 Label(win, text="До", font=('Comic Sans MS', 12)).place(x=140, y=40)
 
 # Поля введення для діапазону
-vcmd = (win.register(is_valid_number), "%P") # Для блокування писання тексту замість чисел
+vcmd = (win.register(validate_number_input), '%P') # Для блокування писання тексту замість чисел
 entry_start = Entry(win, font=('Comic Sans MS', 12), width=5, validate="key", validatecommand=vcmd)
 entry_start.place(x=60, y=40)
 entry_end = Entry(win, font=('Comic Sans MS', 12), width=5, validate="key", validatecommand=vcmd)
