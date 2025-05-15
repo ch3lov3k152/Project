@@ -106,7 +106,7 @@ clear_btn.place(x=200, y=100)
 
 # Кнопка збережння файлу
 save_button = Button(win, text='Збереження файлу', command=save_file)
-save_button.place(x=20, y=365)
+save_button.place(x=20, y=366)
 
 # Виведення результату
 result_label = Label(win, text="", font=('Comic Sans MS', 20), fg="blue")
